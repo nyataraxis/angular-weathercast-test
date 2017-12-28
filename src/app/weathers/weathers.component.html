@@ -1,7 +1,7 @@
 <div>
 	<form>
       <mat-form-field>
-        <mat-select placeholder="Favorite city" [(ngModel)]="selectedValue" name="city">
+        <mat-select placeholder="City" [(ngModel)]="selectedValue" name="city">
             <mat-option *ngFor="let city of cities" [value]="city.value">
               {{city.viewValue}}
             </mat-option>
@@ -18,18 +18,12 @@
           <mat-datepicker #pickerEnd [startAt]="startDate"></mat-datepicker>
         </mat-form-field>
         <p> Selected value: {{selectedValue}} </p>
-    </form>
+        <button mat-button (click)="changeForecast()">Request the weather</button>
+    </form> 
 </div>
+<p>last request: {{lastReq}}</p>
 <h2>weathers</h2>
-<ul class="weathers">
-	<li *ngFor="let weather of weathers">
-      <h2>{{weather.text}}</h2>
-      <div><span>code: </span>{{weather.code}}</div>
-      <div><span>date: </span>{{weather.date}}</div>
-      <div><span>high: </span>{{weather.high}}</div>
-      <div><span>low: </span>{{weather.low}}</div>
-    </li>
-</ul>
+
 <ul class="weathers">
 	<li *ngFor="let weatherEl of weatherArr">
       <h2>{{weatherEl.text}}</h2>
@@ -40,9 +34,42 @@
     </li>
 </ul>
 <div>{{query}} {{fetchStr}}</div>
-<script>
-    var wind = data.query.results.channel.wind;
-    console.log(wind.chill);
-</script>
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="weatherSource">
 
-<script src="https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid = 2487889)&format=json&callback=callbackFunction"></script>
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.date}} </mat-cell>
+    </ng-container>
+
+    <!-- Day of the week Column -->
+    <ng-container matColumnDef="day">
+      <mat-header-cell *matHeaderCellDef> Day </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.day}} </mat-cell>
+    </ng-container>
+
+    <!-- Higher Temp Column -->
+    <ng-container matColumnDef="high">
+      <mat-header-cell *matHeaderCellDef> Higher Temp </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.high}}°F </mat-cell>
+    </ng-container>
+
+    <!-- Lower Temp Column -->
+    <ng-container matColumnDef="low">
+      <mat-header-cell *matHeaderCellDef> Lower temp </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.low}}°F </mat-cell>
+    </ng-container>
+    
+    <!-- Text Column -->
+    <ng-container matColumnDef="text">
+      <mat-header-cell *matHeaderCellDef> Text </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.text}} </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
