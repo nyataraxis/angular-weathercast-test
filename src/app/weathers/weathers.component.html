@@ -1,0 +1,48 @@
+<div>
+	<form>
+      <mat-form-field>
+        <mat-select placeholder="Favorite city" [(ngModel)]="selectedValue" name="city">
+            <mat-option *ngFor="let city of cities" [value]="city.value">
+              {{city.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="pickerStart" placeholder="Choose a date">
+          <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStart [startAt]="startDate"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="pickerEnd" placeholder="Choose a date">
+          <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+          <mat-datepicker #pickerEnd [startAt]="startDate"></mat-datepicker>
+        </mat-form-field>
+        <p> Selected value: {{selectedValue}} </p>
+    </form>
+</div>
+<h2>weathers</h2>
+<ul class="weathers">
+	<li *ngFor="let weather of weathers">
+      <h2>{{weather.text}}</h2>
+      <div><span>code: </span>{{weather.code}}</div>
+      <div><span>date: </span>{{weather.date}}</div>
+      <div><span>high: </span>{{weather.high}}</div>
+      <div><span>low: </span>{{weather.low}}</div>
+    </li>
+</ul>
+<ul class="weathers">
+	<li *ngFor="let weatherEl of weatherArr">
+      <h2>{{weatherEl.text}}</h2>
+      <div><span>code: </span>{{weatherEl.code}}</div>
+      <div><span>date: </span>{{weatherEl.date}}</div>
+      <div><span>high: </span>{{weatherEl.high}}</div>
+      <div><span>low: </span>{{weatherEl.low}}</div>
+    </li>
+</ul>
+<div>{{query}} {{fetchStr}}</div>
+<script>
+    var wind = data.query.results.channel.wind;
+    console.log(wind.chill);
+</script>
+
+<script src="https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid = 2487889)&format=json&callback=callbackFunction"></script>
