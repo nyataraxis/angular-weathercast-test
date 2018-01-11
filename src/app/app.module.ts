@@ -12,17 +12,26 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  DxDataGridModule, DxChartModule, DxSelectBoxModule,
+  DxTextBoxModule,
+  DxTemplateModule } from 'devextreme-angular';
+import { DxButtonModule } from 'devextreme-angular';
+
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { WeatherService } from './weather.service';
 import { AppComponent } from './app.component';
+import { GridCellDataPipe } from './weathers/weathers.component';
 import { WeathersComponent } from './weathers/weathers.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    WeathersComponent
+    WeathersComponent,
+    GridCellDataPipe
   ],
   imports: [
     BrowserModule,
@@ -35,7 +44,13 @@ import { WeathersComponent } from './weathers/weathers.component';
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTableModule
+    MatTableModule,
+    DxDataGridModule,
+    DxButtonModule,
+    DxChartModule,
+    DxSelectBoxModule,
+    DxTextBoxModule,
+    DxTemplateModule
   ],
   providers: [
   	WeatherService
@@ -43,3 +58,5 @@ import { WeathersComponent } from './weathers/weathers.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+platformBrowserDynamic().bootstrapModule(AppModule);

@@ -16,7 +16,8 @@ export class WeatherService {
   }
   res: Result;
   queryData: Observable<Result>;
-  querl='';
+  querl = '';
+  weathers: Weather[];
 
   getForecasts(cityId:string): Observable<Result> {
   	let querl='https://query.yahooapis.com/v1/public/yql?q=select%20item.forecast%20from%20weather.forecast%20where%20woeid%20=%20'+cityId+'&format=json';
@@ -26,6 +27,5 @@ export class WeatherService {
     this.querl = querl;
     return this.queryData;
   }
- 
 
 }

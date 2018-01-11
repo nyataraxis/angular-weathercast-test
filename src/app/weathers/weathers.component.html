@@ -1,75 +1,54 @@
-<div>
-	<form>
-      <mat-form-field>
-        <mat-select placeholder="City" [(ngModel)]="selectedValue" name="city">
-            <mat-option *ngFor="let city of cities" [value]="city.value">
-              {{city.viewValue}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput [matDatepicker]="pickerStart" placeholder="Choose a date">
-          <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
-          <mat-datepicker #pickerStart [startAt]="startDate"></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput [matDatepicker]="pickerEnd" placeholder="Choose a date">
-          <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
-          <mat-datepicker #pickerEnd [startAt]="startDate"></mat-datepicker>
-        </mat-form-field>
-        <p> Selected value: {{selectedValue}} </p>
-        <button mat-button (click)="changeForecast()">Request the weather</button>
-    </form> 
+
+<div class="dx-field">
+  <div class="dx-field-label">Product</div>
+  <div class="dx-field-value">
+    <dx-select-box #selectBox [dataSource]="cities" valueExpr="value" displayExpr="viewValue" [(ngModel)]="selectedValue">
+    </dx-select-box>
+  </div>
+</div>
+<div class="current-value">
+  Selected product is <span>{{selectedValue}}</span>
 </div>
 <p>last request: {{lastReq}}</p>
 <h2>weathers</h2>
 
-<ul class="weathers">
-	<li *ngFor="let weatherEl of weatherArr">
-      <h2>{{weatherEl.text}}</h2>
-      <div><span>code: </span>{{weatherEl.code}}</div>
-      <div><span>date: </span>{{weatherEl.date}}</div>
-      <div><span>high: </span>{{weatherEl.high}}</div>
-      <div><span>low: </span>{{weatherEl.low}}</div>
-    </li>
-</ul>
+<dx-button text="Request the weathers" (onClick)="changeForecast()"></dx-button>
+<dx-data-grid id="gridContainer"
+              [dataSource]="weatherArr"
+              [rowAlternationEnabled]="true">
+  <dxi-column dataField="date" [width]="90" dataType="date"></dxi-column>
+  <dxi-column caption="Day" [width]="60" dataField="day"></dxi-column>
+  <dxi-column caption="High" cellTemplate="highDiffCellTemplate"></dxi-column>
+  <dxi-column caption="Low" cellTemplate="lowDiffCellTemplate"></dxi-column>
+  <dxi-column caption="Weather" dataField="text"></dxi-column>
+
+  <div *dxTemplate="let d of 'highDiffCellTemplate'" [class]="d.data.diffHigh >= 0 ? (d.data.diffHigh == 0 ? '' : 'inc') : 'dec'">
+    <span class="current-high">{{d.data.high}}</span>
+  </div>
+  <div *dxTemplate="let d of 'lowDiffCellTemplate'" [class]="d.data.diffLow >= 0 ? (d.data.diffLow == 0 ? '' : 'inc') : 'dec'">
+    <span class="current-low">{{d.data.low}}</span>
+  </div>
+</dx-data-grid>
+
+<dx-chart id="weather-chart"
+          [dataSource]="weatherArr">
+  <dxo-argument-axis argumentType="date"
+                     type="discrete">
+  </dxo-argument-axis>
+  <dxi-value-axis valueType="numeric">
+    <dxi-constant-line [value]="32" id="temp-null" color="#35fc35"></dxi-constant-line>
+  </dxi-value-axis>
+  <dxi-series type="spline"
+              valueField="high"
+              argumentField="date"
+              name="High, °F"
+              color="#fc3535"></dxi-series>
+  <dxi-series type="spline"
+              valueField="low"
+              argumentField="date"
+              name="Low, °F"
+              color="#3535fc"></dxi-series>
+</dx-chart>
+
+
 <div>{{query}} {{fetchStr}}</div>
-<div class="example-container mat-elevation-z8">
-  <mat-table #table [dataSource]="weatherSource">
-
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
-    <!-- Date Column -->
-    <ng-container matColumnDef="date">
-      <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.date}} </mat-cell>
-    </ng-container>
-
-    <!-- Day of the week Column -->
-    <ng-container matColumnDef="day">
-      <mat-header-cell *matHeaderCellDef> Day </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.day}} </mat-cell>
-    </ng-container>
-
-    <!-- Higher Temp Column -->
-    <ng-container matColumnDef="high">
-      <mat-header-cell *matHeaderCellDef> Higher Temp </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.high}}°F </mat-cell>
-    </ng-container>
-
-    <!-- Lower Temp Column -->
-    <ng-container matColumnDef="low">
-      <mat-header-cell *matHeaderCellDef> Lower temp </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.low}}°F </mat-cell>
-    </ng-container>
-    
-    <!-- Text Column -->
-    <ng-container matColumnDef="text">
-      <mat-header-cell *matHeaderCellDef> Text </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.text}} </mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-</div>

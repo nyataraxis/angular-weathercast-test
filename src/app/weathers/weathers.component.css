@@ -4,3 +4,15 @@
 
   min-width: 300px;
 }
+
+.inc {
+  color: green;
+}
+
+.dec {
+  color: red
+}
+
+#temp-null{
+   
+}
