@@ -85,6 +85,7 @@ export class GridCellDataPipe implements PipeTransform {
   transform(gridData: any) {
     return gridData.data[gridData.column.caption.toLowerCase()];
   }
+}
 
 class WeatherTable extends Weather {
   constructor() {

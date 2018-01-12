@@ -31,7 +31,9 @@
 </dx-data-grid>
 
 <dx-chart id="weather-chart"
+          palette="violet"
           [dataSource]="weatherArr">
+  <dxo-export [enabled]="true"></dxo-export>
   <dxo-argument-axis argumentType="date"
                      type="discrete">
   </dxo-argument-axis>
