@@ -38,22 +38,22 @@ export class WeathersComponent implements OnInit {
   weatherSource = new MatTableDataSource();
 
   constructor(private weathService: WeatherService) { }
-  
+
   changeForecast() {
 
-  	this.weatherArr = [];
+    this.weatherArr = [];
 
-  	this.weathService.getForecasts(this.selectedValue).subscribe(val =>
-  		this.weatherSource.data = val.query.results.channel.map((elem,index)=>(elem.item.forecast)));
+    this.weathService.getForecasts(this.selectedValue).subscribe(val =>
+      this.weatherSource.data = val.query.results.channel.map((elem, index) => (elem.item.forecast)));
 
-  	console.log(this.weatherArr);
-  	this.lastReq = this.weathService.querl;
-    
-    
+    console.log(this.weatherArr);
+    this.lastReq = this.weathService.querl;
+
+
   }
 
   ngOnInit(){
 
   }
-  
+
 }

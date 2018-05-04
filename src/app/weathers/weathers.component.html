@@ -19,7 +19,7 @@
         </mat-form-field>
         <p> Selected value: {{selectedValue}} </p>
         <button mat-button (click)="changeForecast()">Request the weather</button>
-    </form> 
+    </form>
 </div>
 <p>last request: {{lastReq}}</p>
 <h2>weathers</h2>
@@ -33,7 +33,7 @@
       <div><span>low: </span>{{weatherEl.low}}</div>
     </li>
 </ul>
-<div>{{query}} {{fetchStr}}</div>
+<div>{{lastReq}}</div>
 <div class="example-container mat-elevation-z8">
   <mat-table #table [dataSource]="weatherSource">
 
@@ -63,7 +63,7 @@
       <mat-header-cell *matHeaderCellDef> Lower temp </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.low}}°F </mat-cell>
     </ng-container>
-    
+
     <!-- Text Column -->
     <ng-container matColumnDef="text">
       <mat-header-cell *matHeaderCellDef> Text </mat-header-cell>
